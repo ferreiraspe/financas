@@ -4,12 +4,16 @@ import com.edson.financas.exception.ErroAutenticacao;
 import com.edson.financas.exception.RegraNegocioException;
 import com.edson.financas.model.entity.Usuario;
 import com.edson.financas.model.repository.UsuarioRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioServiceImpl implements UsuarioService{
 
     @Autowired
