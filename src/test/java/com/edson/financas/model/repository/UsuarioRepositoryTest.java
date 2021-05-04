@@ -32,7 +32,7 @@ public class UsuarioRepositoryTest {
         entityManager.persist(usuario);
 
         //ação/execução
-        boolean result = repository.existsByEmail("usuario@email.com");
+        boolean result = repository.existsByEmail("email@email.com");
 
         //verificação
         Assertions.assertThat(result).isTrue();
