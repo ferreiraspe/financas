@@ -4,7 +4,9 @@ import com.edson.financas.api.dto.UsuarioDTO;
 import com.edson.financas.exception.ErroAutenticacao;
 import com.edson.financas.exception.RegraNegocioException;
 import com.edson.financas.model.entity.Usuario;
+import com.edson.financas.service.LancamentoService;
 import com.edson.financas.service.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,10 +14,11 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/usuarios")
+@RequiredArgsConstructor
 public class UsuarioResource {
 
-    @Autowired
-    private UsuarioService service;
+    private final UsuarioService service;
+    private final LancamentoService lancamentoService;
 
     @PostMapping("/autenticar")
     public ResponseEntity autenticar(@RequestBody UsuarioDTO dto){

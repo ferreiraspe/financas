@@ -5,9 +5,12 @@ import com.edson.financas.model.entity.Lancamento;
 import com.edson.financas.model.enums.StatusLancamento;
 import com.edson.financas.model.repository.LancamentoRepository;
 import com.edson.financas.service.LancamentoService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
@@ -15,6 +18,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
+@Service
+@NoArgsConstructor
+@AllArgsConstructor
 public class LancamentoServiceImpl implements LancamentoService {
 
     @Autowired
@@ -38,7 +44,6 @@ public class LancamentoServiceImpl implements LancamentoService {
 
     @Override
     @Transactional
-
     public void deletar(Lancamento lancamento) {
         Objects.requireNonNull(lancamento.getId());
         repository.delete(lancamento);

@@ -8,6 +8,7 @@ import com.edson.financas.model.enums.StatusLancamento;
 import com.edson.financas.model.enums.TipoLancamento;
 import com.edson.financas.service.LancamentoService;
 import com.edson.financas.service.UsuarioService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,11 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/lancamentos")
+@RequiredArgsConstructor
 public class LancamentoResource {
 
-    @Autowired
-    private LancamentoService service;
-
-    @Autowired
-    private UsuarioService usuarioService;
+    private final LancamentoService service;
+    private final UsuarioService usuarioService;
 
     @GetMapping
     public ResponseEntity buscar(
@@ -39,7 +38,7 @@ public class LancamentoResource {
         lancamentoFiltro.setAno(ano);
 
         Optional<Usuario> usuario = usuarioService.obterPorId(idUsuario);
-        if (usuario.isPresent()){
+        if (!usuario.isPresent()){
             return ResponseEntity.badRequest()
                     .body("Não foi possível ralizar a consulta. Usuário não encontrado para o Id informado.");
         }else {
@@ -99,8 +98,14 @@ public class LancamentoResource {
                 .orElseThrow( () -> new RegraNegocioException("Usuário não encontrado para o Id informado."));
 
         lancamento.setUsuario(usuario);
-        lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
-        lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+
+        if (dto.getTipo() != null) {
+            lancamento.setTipo(TipoLancamento.valueOf(dto.getTipo()));
+        }
+
+        if (dto.getStatus() != null) {
+            lancamento.setStatus(StatusLancamento.valueOf(dto.getStatus()));
+        };
 
         return lancamento;
 
