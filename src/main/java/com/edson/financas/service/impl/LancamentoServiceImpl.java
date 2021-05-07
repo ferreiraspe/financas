@@ -3,6 +3,7 @@ package com.edson.financas.service.impl;
 import com.edson.financas.exception.RegraNegocioException;
 import com.edson.financas.model.entity.Lancamento;
 import com.edson.financas.model.enums.StatusLancamento;
+import com.edson.financas.model.enums.TipoLancamento;
 import com.edson.financas.model.repository.LancamentoRepository;
 import com.edson.financas.service.LancamentoService;
 import lombok.AllArgsConstructor;
@@ -95,5 +96,22 @@ public class LancamentoServiceImpl implements LancamentoService {
     @Override
     public Optional<Lancamento> obterPorId(Long id) {
         return repository.findById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public BigDecimal obterSaldoPorUsuario(Long id) {
+        BigDecimal receitas = repository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.RECEITA.name());
+        BigDecimal despesas = repository.obterSaldoPorTipoLancamentoEUsuario(id, TipoLancamento.DESPESA.name());
+
+        if (receitas == null){
+            receitas = BigDecimal.ZERO;
+        }
+
+        if (despesas == null){
+            despesas = BigDecimal.ZERO;
+        }
+
+        return receitas.subtract(despesas);
     }
 }
