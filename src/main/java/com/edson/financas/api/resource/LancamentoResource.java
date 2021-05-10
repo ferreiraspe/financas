@@ -49,6 +49,14 @@ public class LancamentoResource {
         return ResponseEntity.ok(lancamentos);
     }
 
+    @GetMapping("/buscar-todos")
+    public ResponseEntity buscarTodos(){
+        Lancamento lancamento = new Lancamento();
+
+        List<Lancamento> lancamentos = service.buscarTodos(lancamento);
+        return ResponseEntity.ok(lancamentos);
+    }
+
     @PostMapping
     public ResponseEntity salvar(@RequestBody LancamentoDTO dto){
         try {
